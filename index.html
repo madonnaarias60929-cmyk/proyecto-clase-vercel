@@ -4,14 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Multiverso Explorer</title>
+  <!-- Ruta correcta del archivo CSS generado por Tailwind -->
   <link rel="stylesheet" href="css/tailwind.css">
 </head>
 <body class="min-h-dvh bg-slate-100 text-slate-900 dark:bg-slate-900 dark:text-slate-100">
-  <!--
-    PASO 00 · Punto de partida: la app de la semana 7
-    Qué cambia: Nada. Es el paso 06 de la semana 7: 8 personajes escritos a mano en js/datos.js, buscador y select que filtran en local, modal con delegación.
-    Compruébalo: Con Live Server se ven 8 tarjetas y el contador dice "8 de 8 personajes · 6 vivos". Hoy datos.js desaparece.
-  -->
   <header class="sticky top-0 z-10 bg-white shadow dark:bg-slate-900 dark:shadow-slate-950">
     <nav class="relative mx-auto flex max-w-6xl items-center justify-between p-4">
       <a href="#" class="text-xl font-bold text-indigo-600 dark:text-indigo-400">
@@ -24,46 +20,63 @@
           class="absolute top-full right-0 left-0 hidden flex-col gap-1 bg-white p-4 shadow-lg
                  md:static md:flex md:flex-row md:gap-6 md:bg-transparent md:p-0 md:shadow-none
                  dark:bg-slate-900">
-        <li><a href="#" class="block rounded-lg px-3 py-2 font-medium text-indigo-600 md:p-0 dark:text-indigo-400">Personajes</a></li>
+        <li><a href="#" data-vista="todos" aria-current="page" class="block rounded-lg px-3 py-2 font-medium text-indigo-600 md:p-0 dark:text-indigo-400">Personajes</a></li>
         <li><a href="#" class="block rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 hover:text-indigo-600 md:p-0 md:hover:bg-transparent dark:text-slate-300 dark:hover:bg-slate-800">Episodios</a></li>
-        <li><a href="#" class="block rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 hover:text-indigo-600 md:p-0 md:hover:bg-transparent dark:text-slate-300 dark:hover:bg-slate-800">Favoritos</a></li>
+        <li><a href="#" data-vista="favoritos" class="block rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 hover:text-indigo-600 md:p-0 md:hover:bg-transparent dark:text-slate-300 dark:hover:bg-slate-800">Favoritos</a></li>
       </ul>
     </nav>
   </header>
+  
   <main class="mx-auto max-w-6xl p-4">
-    <h1 class="mt-4 text-3xl font-bold md:text-4xl">Personajes de Rick and Morty</h1>
+    <h1 id="titulo" class="mt-4 text-3xl font-bold md:text-4xl">Personajes de Rick and Morty</h1>
     <p id="contador" class="mt-1 text-slate-500 dark:text-slate-400"></p>
+    
     <form id="form-busqueda" class="my-6 flex flex-col gap-3 md:flex-row" role="search">
       <label for="busqueda" class="sr-only">Buscar personaje</label>
       <input id="busqueda" type="search" placeholder="Buscar por nombre…" minlength="2"
              class="flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2
-                   focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none
-                   user-invalid:border-rose-500
-                   dark:border-slate-600 dark:bg-slate-800 dark:focus:ring-indigo-900">
+                    focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none
+                    user-invalid:border-rose-500
+                    dark:border-slate-600 dark:bg-slate-800 dark:focus:ring-indigo-900">
+      
       <label for="filtro-estado" class="sr-only">Filtrar por estado</label>
       <select id="filtro-estado"
               class="rounded-lg border border-slate-300 bg-white px-3 py-2
-                   focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none
-                   dark:border-slate-600 dark:bg-slate-800 dark:focus:ring-indigo-900">
+                    focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none
+                    dark:border-slate-600 dark:bg-slate-800 dark:focus:ring-indigo-900">
         <option value="">Todos los estados</option>
         <option value="alive">Vivos</option>
         <option value="dead">Muertos</option>
         <option value="unknown">Desconocido</option>
       </select>
+      
       <button type="submit"
               class="rounded-lg bg-indigo-600 px-5 py-2 font-semibold text-white transition
                      hover:bg-indigo-700 active:scale-95">
         Buscar
       </button>
     </form>
+    
     <h2 class="mt-6 mb-3 text-sm font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400">Resultados</h2>
+    
     <section id="grilla" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      <!-- Vacía a propósito: las tarjetas las escribe render() a partir del array personajes -->
+      <!-- Las tarjetas se generan dinámicamente desde app.js -->
     </section>
+    
+    <div class="mt-8 text-center">
+      <button id="btn-mas" type="button" hidden
+              class="rounded-lg border border-slate-300 bg-white px-6 py-2 font-semibold transition
+                     hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50
+                     dark:border-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700">
+        Cargar más
+      </button>
+    </div>
   </main>
+
   <footer class="mt-12 border-t border-slate-200 py-6 text-center text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
     Datos: <a href="https://rickandmortyapi.com" class="underline hover:text-indigo-600">The Rick and Morty API</a> · Hecho con Tailwind CSS v4
   </footer>
+
   <dialog id="modal-detalle" aria-labelledby="modal-nombre"
           class="m-auto w-full max-w-md overflow-hidden rounded-2xl bg-white p-0 shadow-2xl
                  backdrop:bg-slate-900/60 backdrop:backdrop-blur-sm
@@ -85,7 +98,8 @@
       </form>
     </div>
   </dialog>
-  <!-- Un solo script: app.js. Él importa a los demás. type="module" exige abrir con Live Server -->
+
+  <!-- Script principal del proyecto -->
   <script type="module" src="js/app.js"></script>
 </body>
 </html>

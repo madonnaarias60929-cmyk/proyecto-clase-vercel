@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "dev": "npx @tailwindcss/cli -i ./src/entrada.css -o ./css/tailwind.css --watch",
+    "build": "npx @tailwindcss/cli -i ./src/entrada.css -o ./css/tailwind.css",
+    "validar": "html-validate \"*.html\""
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.0.0",
+    "html-validate": "^11.17.0",
+    "tailwindcss": "^4.0.0"
+  }
+}
